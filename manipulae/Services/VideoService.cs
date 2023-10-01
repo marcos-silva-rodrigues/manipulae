@@ -1,4 +1,5 @@
 using manipulae.Data;
+using manipulae.Data.Dto;
 using manipulae.Data.Models;
 
 namespace manipulae.Services;
@@ -11,24 +12,63 @@ public class VideoService : IVideoService
     {
         _context = context;
     }
+
+    public Video? FindVideoById(string id)
+    {
+        return _context.Videos
+            .Where(video => video.IsDeleted != true)
+            .FirstOrDefault(entity => entity.Id == id);
+    }
+
     public Video[] GetAllVideos()
     {
         return _context.Videos.Where(video => video.IsDeleted != true).ToArray();
     }
 
-    public void Delete()
+    public bool MarkDeleted(string id)
     {
-        throw new NotImplementedException();
+        var exists = FindVideoById(id);
+        if (exists == null)
+        {
+            return false;
+        }
+
+        exists.IsDeleted = true;
+        _context.SaveChanges();
+        return true;
     }
 
-    public Video Insert()
+    public Video? Insert(CreateVideoDto dto)
     {
-        throw new NotImplementedException();
+        var exists = FindVideoById(dto.Id);
+        if (exists != null)
+        {
+            return null;
+        }
+
+        var video = CreateVideoDto.FromVideo(dto);
+
+        _context.Videos.Add(video);
+        _context.SaveChanges();
+
+        return video;
     }
 
-    public void Update()
+    public bool Update(string id, UpdateVideoDto dto)
     {
-        throw new NotImplementedException();
+        var exists = FindVideoById(id);
+        if (exists == null)
+        {
+            return false;
+        }
+
+        exists.Url = dto.Url;
+        exists.Title = dto.Title;
+        exists.Autor = dto.Autor;
+        exists.Description = dto.Description;
+
+        _context.SaveChanges();
+        return true;
     }
 
 }
