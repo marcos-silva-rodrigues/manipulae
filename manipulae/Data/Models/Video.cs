@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace manipulae.Data.Models
 {
@@ -30,6 +31,7 @@ namespace manipulae.Data.Models
         [Required]
         public DateTime CreatedAt { get; set; }
 
+        [JsonIgnore]
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
     }

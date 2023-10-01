@@ -20,6 +20,10 @@ namespace manipulae
             builder.Services.AddDbContext<VideoDbContext>(opts => opts.UseSqlite(connection));
             builder.Services.AddHttpClient<IVideosSeederService, YoutubeSeederService>();
             builder.Services.AddTransient<VideoSeeder>();
+
+            // Add Services
+            builder.Services.AddTransient<IVideoService, VideoService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

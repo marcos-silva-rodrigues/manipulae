@@ -17,6 +17,12 @@ public class VideoSeeder
 
     public void Execute()
     {
+        var rowsCount = _context.Videos.Count();
+        if (rowsCount != 0)
+        {
+            Console.WriteLine("Não executa seed");
+            return;
+        }
         var response = _service.GetVideos();
         if (response == null)
         {

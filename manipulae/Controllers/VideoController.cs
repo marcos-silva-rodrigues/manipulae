@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using manipulae.Data.Models;
+using manipulae.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace manipulae.Controllers
@@ -8,12 +10,18 @@ namespace manipulae.Controllers
     public class VideoController : ControllerBase
     {
 
-        [HttpGet]
-        public Dictionary<string, string> HelloMessage()
+        private readonly IVideoService _service;
+
+        public VideoController(IVideoService service)
         {
-            var json = new Dictionary<string, string>();
-            json.Add("Message", "Hello Manipulae");
-            return json;
+            _service = service;
+        }
+
+        [HttpGet]
+        public ActionResult<Video[]> FindAll()
+        {
+            var videos = _service.GetAllVideos();
+            return Ok(videos);
         }
     }
 }
