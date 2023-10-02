@@ -20,9 +20,9 @@ namespace manipulae.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Video[]> FindAll()
+        public ActionResult<Video[]> FindAll([FromQuery] string? q, [FromQuery] DateTime? after)
         {
-            var videos = _service.GetAllVideos();
+            var videos = _service.GetVideosAndFilter(q, after);
             return Ok(videos);
         }
 

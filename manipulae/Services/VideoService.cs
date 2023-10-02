@@ -1,6 +1,7 @@
 using manipulae.Data;
 using manipulae.Data.Dto;
 using manipulae.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace manipulae.Services;
 
@@ -20,9 +21,23 @@ public class VideoService : IVideoService
             .FirstOrDefault(entity => entity.Id == id);
     }
 
-    public Video[] GetAllVideos()
+    public Video[] GetVideosAndFilter(string? q, DateTime? after)
     {
-        return _context.Videos.Where(video => video.IsDeleted != true).ToArray();
+        var videos = _context.Videos
+            .Where(video => video.IsDeleted != true)
+            .Where(video => after != null
+                ? video.CreatedAt >= after
+                : true)
+            .Where(video => q != null
+                ? (
+                    EF.Functions.Like(video.Autor, $"%{q}%") ||
+                    EF.Functions.Like(video.Description, $"%{q}%") ||
+                    EF.Functions.Like(video.Title, $"%{q}%")
+                )
+                : true)
+            .ToArray();
+
+        return videos;
     }
 
     public bool MarkDeleted(string id)

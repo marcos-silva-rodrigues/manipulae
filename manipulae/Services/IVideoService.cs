@@ -6,7 +6,7 @@ namespace manipulae.Services;
 public interface IVideoService
 {
     Video? FindVideoById(string id);
-    Video[] GetAllVideos();
+    Video[] GetVideosAndFilter(string? q, DateTime? after);
     Video? Insert(CreateVideoDto dto);
     bool Update(string id, UpdateVideoDto dto);
     bool MarkDeleted(string id);
