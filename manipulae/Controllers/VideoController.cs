@@ -39,7 +39,7 @@ namespace manipulae.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public ActionResult Create([FromBody] CreateVideoDto dto)
+        public ActionResult<Video> Create([FromBody] CreateVideoDto dto)
         {
             var video = _service.Insert(dto);
             if (video == null)
