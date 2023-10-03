@@ -37,10 +37,6 @@ Insira sua api key do google e o caminho para o arquivo do sqlite no appsettings
 ## Rodando o projeto com docker
 
 ```bash
-# entre no diretorio do projeto, caso esteje na solução
-
-cd ./manipulae
-
 # Crie a imagem
 docker build -t mani-api .
 
