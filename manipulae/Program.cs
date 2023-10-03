@@ -36,12 +36,8 @@ namespace manipulae
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<VideoDbContext>();
-                db.Database.Migrate();
-            }
-
-            using (var scope = app.Services.CreateScope())
-            {
                 var seeder = scope.ServiceProvider.GetRequiredService<VideoSeeder>();
+                db.Database.Migrate();
                 seeder.Execute();
             }
 
